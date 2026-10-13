@@ -1,0 +1,463 @@
+[
+  {
+    "menu_id": "1",
+    "parent_menu_id": null,
+    "menu_name": "대시보드",
+    "screen_id": null,
+    "icon": "grid",
+    "sort_order": 1,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "11",
+        "parent_menu_id": "1",
+        "menu_name": "대시보드",
+        "screen_id": "UI-16",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "2",
+    "parent_menu_id": null,
+    "menu_name": "기준정보",
+    "screen_id": null,
+    "icon": "db",
+    "sort_order": 2,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "12",
+        "parent_menu_id": "2",
+        "menu_name": "거래처·영업 파트",
+        "screen_id": "UI-15",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "13",
+        "parent_menu_id": "2",
+        "menu_name": "개발자 풀",
+        "screen_id": "UI-02",
+        "icon": null,
+        "sort_order": 2,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "3",
+    "parent_menu_id": null,
+    "menu_name": "프로젝트·투입",
+    "screen_id": null,
+    "icon": "folder",
+    "sort_order": 3,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "14",
+        "parent_menu_id": "3",
+        "menu_name": "프로젝트",
+        "screen_id": "UI-01",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "15",
+        "parent_menu_id": "3",
+        "menu_name": "프로젝트 현황판",
+        "screen_id": "UI-31",
+        "icon": null,
+        "sort_order": 2,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "16",
+        "parent_menu_id": "3",
+        "menu_name": "투입 배정",
+        "screen_id": "UI-12",
+        "icon": null,
+        "sort_order": 3,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "17",
+        "parent_menu_id": "3",
+        "menu_name": "철수 리스트",
+        "screen_id": "UI-05",
+        "icon": null,
+        "sort_order": 4,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "18",
+        "parent_menu_id": "3",
+        "menu_name": "인원 계획 대비 투입",
+        "screen_id": "UI-11",
+        "icon": null,
+        "sort_order": 5,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "4",
+    "parent_menu_id": null,
+    "menu_name": "인력 계획",
+    "screen_id": null,
+    "icon": "calendar",
+    "sort_order": 4,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "19",
+        "parent_menu_id": "4",
+        "menu_name": "인력 운영 보드",
+        "screen_id": "UI-28",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "20",
+        "parent_menu_id": "4",
+        "menu_name": "인력 수요 예측",
+        "screen_id": "UI-17",
+        "icon": null,
+        "sort_order": 2,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "21",
+        "parent_menu_id": "4",
+        "menu_name": "영업 파이프라인",
+        "screen_id": "UI-29",
+        "icon": null,
+        "sort_order": 3,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "22",
+        "parent_menu_id": "4",
+        "menu_name": "외부 인력 후보",
+        "screen_id": "UI-33",
+        "icon": null,
+        "sort_order": 4,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "5",
+    "parent_menu_id": null,
+    "menu_name": "매출",
+    "screen_id": null,
+    "icon": "receipt",
+    "sort_order": 5,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "23",
+        "parent_menu_id": "5",
+        "menu_name": "청구·입금",
+        "screen_id": "UI-13",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "6",
+    "parent_menu_id": null,
+    "menu_name": "원가·수익",
+    "screen_id": null,
+    "icon": "chart",
+    "sort_order": 6,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "24",
+        "parent_menu_id": "6",
+        "menu_name": "개인 원가·수익표",
+        "screen_id": "UI-03",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "25",
+        "parent_menu_id": "6",
+        "menu_name": "프로젝트 원가 분석",
+        "screen_id": "UI-04",
+        "icon": null,
+        "sort_order": 2,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "26",
+        "parent_menu_id": "6",
+        "menu_name": "영업 파트 이익금",
+        "screen_id": "UI-19",
+        "icon": null,
+        "sort_order": 3,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "27",
+        "parent_menu_id": "6",
+        "menu_name": "단가 재협상 대상",
+        "screen_id": "UI-32",
+        "icon": null,
+        "sort_order": 4,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "7",
+    "parent_menu_id": null,
+    "menu_name": "재무·자금",
+    "screen_id": null,
+    "icon": "wallet",
+    "sort_order": 7,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "28",
+        "parent_menu_id": "7",
+        "menu_name": "재무 항목",
+        "screen_id": "UI-10",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "N",
+        "children": []
+      },
+      {
+        "menu_id": "29",
+        "parent_menu_id": "7",
+        "menu_name": "전체 수익 구조",
+        "screen_id": "UI-07",
+        "icon": null,
+        "sort_order": 2,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "30",
+        "parent_menu_id": "7",
+        "menu_name": "영업이익표",
+        "screen_id": "UI-08",
+        "icon": null,
+        "sort_order": 3,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "31",
+        "parent_menu_id": "7",
+        "menu_name": "순이익표",
+        "screen_id": "UI-09",
+        "icon": null,
+        "sort_order": 4,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "32",
+        "parent_menu_id": "7",
+        "menu_name": "사업계획 대비 실적",
+        "screen_id": "UI-18",
+        "icon": null,
+        "sort_order": 5,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "33",
+        "parent_menu_id": "7",
+        "menu_name": "지급 관리",
+        "screen_id": "UI-20",
+        "icon": null,
+        "sort_order": 6,
+        "use_yn": "Y",
+        "mobile_yn": "N",
+        "children": []
+      },
+      {
+        "menu_id": "34",
+        "parent_menu_id": "7",
+        "menu_name": "자금수지표",
+        "screen_id": "UI-21",
+        "icon": null,
+        "sort_order": 7,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "8",
+    "parent_menu_id": null,
+    "menu_name": "마감",
+    "screen_id": null,
+    "icon": "lock",
+    "sort_order": 8,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "35",
+        "parent_menu_id": "8",
+        "menu_name": "월 마감",
+        "screen_id": "UI-14",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "N",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "9",
+    "parent_menu_id": null,
+    "menu_name": "AI",
+    "screen_id": null,
+    "icon": "sparkle",
+    "sort_order": 9,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "36",
+        "parent_menu_id": "9",
+        "menu_name": "AI 분석 도우미",
+        "screen_id": "UI-26",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      },
+      {
+        "menu_id": "37",
+        "parent_menu_id": "9",
+        "menu_name": "AI 인력 추천",
+        "screen_id": "UI-30",
+        "icon": null,
+        "sort_order": 2,
+        "use_yn": "Y",
+        "mobile_yn": "Y",
+        "children": []
+      }
+    ]
+  },
+  {
+    "menu_id": "10",
+    "parent_menu_id": null,
+    "menu_name": "시스템",
+    "screen_id": null,
+    "icon": "gear",
+    "sort_order": 10,
+    "use_yn": "Y",
+    "mobile_yn": "Y",
+    "children": [
+      {
+        "menu_id": "38",
+        "parent_menu_id": "10",
+        "menu_name": "사용자",
+        "screen_id": "UI-23",
+        "icon": null,
+        "sort_order": 1,
+        "use_yn": "Y",
+        "mobile_yn": "N",
+        "children": []
+      },
+      {
+        "menu_id": "39",
+        "parent_menu_id": "10",
+        "menu_name": "권한",
+        "screen_id": "UI-24",
+        "icon": null,
+        "sort_order": 2,
+        "use_yn": "Y",
+        "mobile_yn": "N",
+        "children": []
+      },
+      {
+        "menu_id": "40",
+        "parent_menu_id": "10",
+        "menu_name": "메뉴",
+        "screen_id": "UI-25",
+        "icon": null,
+        "sort_order": 3,
+        "use_yn": "Y",
+        "mobile_yn": "N",
+        "children": []
+      },
+      {
+        "menu_id": "41",
+        "parent_menu_id": "10",
+        "menu_name": "공통코드",
+        "screen_id": "UI-27",
+        "icon": null,
+        "sort_order": 4,
+        "use_yn": "Y",
+        "mobile_yn": "N",
+        "children": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.shared.menu.MenuMapper">
+    <resultMap id="row" type="cost.shared.menu.MenuRow">
+        <result column="menu_id" property="menuId" />
+        <result column="parent_menu_id" property="parentMenuId" />
+        <result column="menu_name" property="menuName" />
+        <result column="screen_id" property="screenId" />
+        <result column="icon" property="icon" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="use_yn" property="useYn" />
+        <result column="mobile_yn" property="mobileYn" />
+    </resultMap>
+    <select id="selectActive" resultMap="row">
+        SELECT
+            menu_id, parent_menu_id, menu_name, screen_id, icon, sort_order, use_yn, mobile_yn
+        FROM sys_menu
+        WHERE use_yn = 'Y'
+        ORDER BY sort_order, menu_id
+    </select>
+</mapper>

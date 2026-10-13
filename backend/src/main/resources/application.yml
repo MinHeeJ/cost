@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  error:
+    include-message: never
+    include-stacktrace: never
+spring:
+  application:
+    name: cost
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://db:5432/cost}
+    username: ${DB_USER:cost}
+    password: ${DB_PASSWORD:dev-only-password}
+  flyway:
+    enabled: true
+  mvc:
+    problemdetails:
+      enabled: false
+mybatis:
+  mapper-locations: classpath*:mappers/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

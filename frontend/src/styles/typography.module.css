@@ -1,0 +1,53 @@
+.title {
+  font-size: var(--font-title);
+  line-height: var(--line-title);
+  font-weight: var(--weight-title);
+}
+.section {
+  font-size: var(--font-section);
+  line-height: var(--line-section);
+  font-weight: var(--weight-section);
+}
+.kpi {
+  font-size: var(--font-kpi);
+  line-height: var(--line-kpi);
+  font-weight: var(--weight-kpi);
+}
+.body {
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+  font-weight: var(--weight-body);
+}
+.table {
+  font-size: var(--font-table);
+  line-height: var(--line-table);
+  font-weight: var(--weight-table);
+}
+.tableHeader {
+  font-weight: var(--weight-table-header);
+}
+.label {
+  font-size: var(--font-label);
+  line-height: var(--line-label);
+  font-weight: var(--weight-label);
+}
+.caption {
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+  font-weight: var(--weight-caption);
+}
+.number {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.text {
+  text-align: left;
+}
+.code,
+.status,
+.date {
+  text-align: center;
+}
+.negative {
+  color: var(--danger);
+}
