@@ -1,0 +1,89 @@
+@import "./tokens.css";
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  min-width: 0;
+}
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+  font-weight: var(--weight-body);
+  color: var(--text);
+  background: var(--bg);
+  font-variant-numeric: tabular-nums;
+}
+h1,
+h2,
+p {
+  margin: 0;
+}
+h1 {
+  font-size: var(--font-title);
+  line-height: var(--line-title);
+  font-weight: var(--weight-title);
+}
+h2 {
+  font-size: var(--font-section);
+  line-height: var(--line-section);
+  font-weight: var(--weight-section);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  max-width: 100%;
+}
+button,
+input:not([type="checkbox"]),
+select {
+  min-height: var(--control-height);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-control);
+  padding: var(--space-4) var(--space-12);
+  background: var(--surface);
+  color: var(--text);
+}
+button {
+  cursor: pointer;
+}
+button:hover {
+  background: var(--readonly-bg);
+}
+button:disabled {
+  cursor: default;
+  color: var(--text-disabled);
+}
+input[readonly] {
+  background: var(--readonly-bg);
+}
+:focus-visible {
+  outline: var(--border-width) solid var(--primary);
+  outline-offset: var(--border-width);
+}
+@media (max-width: 767px) {
+  body {
+    font-size: var(--font-section);
+    line-height: var(--line-section);
+  }
+  button,
+  input:not([type="checkbox"]),
+  select {
+    min-height: var(--control-mobile);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

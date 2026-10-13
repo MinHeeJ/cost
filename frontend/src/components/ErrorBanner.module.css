@@ -1,0 +1,16 @@
+.banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: var(--radius-card);
+}
+.banner p {
+  margin: 0;
+}
+.banner button {
+  margin-left: auto;
+}
