@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.params.ParamMapper">
+    <resultMap id="item" type="cost.params.ParamItem">
+        <result column="param_key" property="paramKey" />
+        <result column="effective_from" property="effectiveFrom" />
+        <result column="param_name" property="paramName" />
+        <result column="num_value" property="numValue" />
+        <result column="text_value" property="textValue" />
+        <result column="unit" property="unit" />
+        <result column="used_in" property="usedIn" />
+        <result column="description" property="description" />
+        <result column="created_by" property="createdBy" />
+    </resultMap>
+    <sql id="columns">
+        param_key,
+        effective_from,
+        param_name,
+        num_value,
+        text_value,
+        unit,
+        used_in,
+        description,
+        created_by
+    </sql>
+    <select id="selectAll" resultMap="item">
+        SELECT
+            <include refid="columns" />
+        FROM si_cost.cm_param
+        ORDER BY param_key, effective_from DESC
+    </select>
+    <select id="selectHistory" resultMap="item">
+        SELECT
+            <include refid="columns" />
+        FROM si_cost.cm_param
+        WHERE param_key = #{key}
+        ORDER BY effective_from DESC
+    </select>
+    <select id="lockHistory" resultMap="item">
+        SELECT
+            <include refid="columns" />
+        FROM si_cost.cm_param
+        WHERE param_key = #{key}
+        ORDER BY effective_from
+        FOR UPDATE
+    </select>
+    <select id="selectLastClosed" resultType="string">
+        SELECT
+            MAX(close_month)
+        FROM public.fin_month_close
+        WHERE status = 'CLOSED'
+    </select>
+    <insert id="insert">
+        INSERT INTO si_cost.cm_param (
+            param_key, effective_from, param_name, num_value, text_value,
+            unit, used_in, description, created_by
+        )
+        VALUES (
+            #{paramKey}, #{effectiveFrom}, #{paramName}, #{numValue,jdbcType=DECIMAL},
+            #{textValue,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{usedIn,jdbcType=VARCHAR},
+            #{description,jdbcType=VARCHAR}, #{createdBy,jdbcType=BIGINT}
+        )
+    </insert>
+    <update id="updateValues">
+        UPDATE si_cost.cm_param
+        SET num_value = #{numValue,jdbcType=DECIMAL},
+            text_value = #{textValue,jdbcType=VARCHAR}
+        WHERE param_key = #{paramKey}
+          AND effective_from = #{effectiveFrom}
+    </update>
+</mapper>

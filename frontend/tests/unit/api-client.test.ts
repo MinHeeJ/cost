@@ -11,6 +11,13 @@ import {
 } from "../../src/pages/shared/api";
 import { getHealth as foundationGetHealth } from "../../src/app/api-client";
 import menus from "../fixtures/shared-menus.json";
+import * as registered from "../../src/api/apiClient";
+import * as menuApi from "../../src/pages/menus/api";
+import * as codeApi from "../../src/pages/codegroups/api";
+import * as mappingApi from "../../src/pages/excelmappings/api";
+import * as paramApi from "../../src/pages/params/api";
+import * as historyApi from "../../src/pages/adminops/api";
+import * as referenceApi from "../../src/pages/apiops/api";
 
 const request = vi.fn();
 function response(data?: unknown) {
@@ -107,5 +114,98 @@ describe("공유 API client 등록", () => {
     const abort = new DOMException("cancelled", "AbortError");
     request.mockRejectedValue(abort);
     await expect(getMenus(new AbortController().signal)).rejects.toBe(abort);
+  });
+});
+
+describe("관리·공개 기준 API 등록", () => {
+  it("여섯 feature의 실제 client를 재사용하며 별도 transport를 만들지 않는다", () => {
+    for (const source of [
+      menuApi,
+      codeApi,
+      mappingApi,
+      paramApi,
+      historyApi,
+      referenceApi,
+    ]) {
+      for (const [name, value] of Object.entries(source)) {
+        if (name in registered) {
+          expect(registered[name as keyof typeof registered]).toBe(value);
+        }
+      }
+    }
+  });
+
+  it("관리 조회와 공개 조회는 전달된 key·필터·month를 상대경로로 보낸다", async () => {
+    request.mockResolvedValue(response([]));
+    const group = "직무 / JOB";
+    const key = "기준 / VAT";
+    await registered.getAdminMenus();
+    await registered.getCodeGroups();
+    await registered.getGroupCodes(group);
+    await registered.getExcelMappings();
+    await registered.getAdminParams();
+    await registered.getParamHistory(key);
+    await registered.getCodeHistory({ group, page: 2, size: 20 });
+    await registered.getCodes(group);
+    await registered.getParam(key, "2026-11");
+    expect(request.mock.calls.map(([path]) => path)).toEqual([
+      "/api/admin/menus",
+      "/api/admin/code-groups",
+      `/api/admin/code-groups/${encodeURIComponent(group)}/codes`,
+      "/api/admin/excel-mappings",
+      "/api/admin/params",
+      `/api/admin/params/${encodeURIComponent(key)}/history`,
+      `/api/admin/code-history?${new URLSearchParams({ page: "2", size: "20", group })}`,
+      `/api/codes/${encodeURIComponent(group)}`,
+      `/api/params/${encodeURIComponent(key)}?month=2026-11`,
+    ]);
+    for (const [, options] of request.mock.calls)
+      expect(options.headers).not.toHaveProperty("Authorization");
+  });
+
+  it("저장 client는 기존 payload와 삼중 query 식별자 및 소수 정밀도를 유지한다", async () => {
+    request.mockResolvedValue(response({}));
+    await registered.updateAdminMenus([]);
+    await registered.createMenuGroup("새 묶음", "grid");
+    await registered.createCodeGroup({
+      group_code: "NEW_GROUP",
+      group_name: "새 그룹",
+    });
+    await registered.updateGroupCodes("JOB", []);
+    const key = {
+      excel_label: "운영 & 보조",
+      target_group: "JOB",
+      target_code: "OPS",
+    };
+    await registered.createExcelMapping({
+      ...key,
+      map_role: "MAIN",
+      note: null,
+    });
+    await registered.updateExcelMapping(key, { note: null, use_yn: "N" });
+    await registered.updateParam("VAT_RATE", {
+      effective_from: "2026-11",
+      num_value: "99999999999999.1234",
+    });
+    expect(
+      request.mock.calls.map(([path, options]) => [path, options.method]),
+    ).toEqual([
+      ["/api/admin/menus", "PUT"],
+      ["/api/admin/menus/groups", "POST"],
+      ["/api/admin/code-groups", "POST"],
+      ["/api/admin/code-groups/JOB/codes", "PUT"],
+      ["/api/admin/excel-mappings", "POST"],
+      [`/api/admin/excel-mappings?${new URLSearchParams(key)}`, "PATCH"],
+      ["/api/admin/params/VAT_RATE", "PUT"],
+    ]);
+    expect(JSON.parse(request.mock.calls[5][1].body)).toEqual({
+      note: null,
+      use_yn: "N",
+    });
+    expect(request.mock.calls[6][1].body).toBe(
+      '{"effective_from":"2026-11","num_value":99999999999999.1234}',
+    );
+    for (const [, options] of request.mock.calls)
+      expect(options.headers).not.toHaveProperty("Authorization");
   });
 });

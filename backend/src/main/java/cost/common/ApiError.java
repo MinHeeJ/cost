@@ -12,6 +12,10 @@ public record ApiError(
     String requestId
 ) {
     public static ApiError of(int status, String message, String field, String requestId) {
-        return new ApiError(false, Map.of(), Integer.toString(status), message, field, requestId);
+        return of(Integer.toString(status), message, field, requestId);
+    }
+
+    public static ApiError of(String code, String message, String field, String requestId) {
+        return new ApiError(false, Map.of(), code, message, field, requestId);
     }
 }

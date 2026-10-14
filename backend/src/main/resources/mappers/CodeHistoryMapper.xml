@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.adminops.CodeHistoryMapper">
+    <resultMap id="historyItem" type="cost.adminops.CodeHistoryItem">
+        <result column="group_code" property="groupCode" />
+        <result column="group_name" property="groupName" />
+        <result column="code" property="code" />
+        <result column="action" property="action" />
+        <result column="field_name" property="fieldName" />
+        <result column="before_value" property="beforeValue" />
+        <result column="after_value" property="afterValue" />
+        <result column="changed_by" property="changedBy" />
+        <result column="changed_at" property="changedAt" />
+    </resultMap>
+    <!-- 값이 존재할 때만 predicate와 bind를 추가한다. count와 list가 같은 조건을 공유한다. -->
+    <sql id="groupFilter">
+        <where>
+            <if test="group != null">
+                h.group_code = #{group}
+            </if>
+        </where>
+    </sql>
+    <select id="selectPage" resultMap="historyItem">
+        SELECT
+            h.group_code,
+            CASE
+                WHEN h.group_code = 'PARAM' THEN '기준값'
+                ELSE COALESCE(g.group_name, h.group_code)
+            END AS group_name,
+            h.code,
+            h.action,
+            h.field_name,
+            h.before_value,
+            h.after_value,
+            CAST(h.changed_by AS TEXT) AS changed_by,
+            h.changed_at
+        FROM si_cost.cm_code_history h
+        LEFT JOIN si_cost.cm_code_group g
+            ON g.group_code = h.group_code
+        <include refid="groupFilter" />
+        ORDER BY h.changed_at DESC, h.hist_id DESC
+        LIMIT #{pageLimit}
+        OFFSET #{pageOffset}
+    </select>
+    <select id="count" resultType="long">
+        SELECT COUNT(*)
+        FROM si_cost.cm_code_history h
+        <include refid="groupFilter" />
+    </select>
+</mapper>

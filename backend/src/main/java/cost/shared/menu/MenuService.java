@@ -34,6 +34,8 @@ public class MenuService {
                 parent.getChildren().add(new MenuNode(row));
             }
         }
-        return new ArrayList<>(roots.values());
+        return roots.values().stream()
+            .filter(node -> !node.getChildren().isEmpty())
+            .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
     }
 }

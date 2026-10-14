@@ -9,6 +9,8 @@ import { getMenus, menuScreens, type MenuNode } from "./api";
 import { screenRoutes } from "./registry";
 import { Placeholder } from "./Placeholder";
 import { Components } from "./Components";
+import Menu from "../menus/Menu";
+import CommonCodeScreen from "../../app/CommonCodeScreen";
 import {
   Sidebar,
   ScreenSearch,
@@ -270,6 +272,10 @@ export function Workspace() {
                 >
                   {tab.route === "/dev/components" ? (
                     <Components />
+                  ) : tab.route === "/UI-25" ? (
+                    <Menu onMenusChanged={setMenus} />
+                  ) : tab.route === "/UI-27" ? (
+                    <CommonCodeScreen />
                   ) : (
                     screen && <Placeholder screen={screen} />
                   )}

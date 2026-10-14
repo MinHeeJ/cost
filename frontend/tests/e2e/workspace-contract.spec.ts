@@ -25,12 +25,25 @@ test("모든 업무 route는 실제 메뉴 이름과 기간 계약을 표시한�
         exact: true,
       }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("region", {
-        name: `${entry.menu_name} 업무 자리`,
-        exact: true,
-      }),
-    ).toHaveText("이 화면은 다음 단계에서 만듭니다.");
+    if (definition.route === "/UI-25") {
+      await expect(
+        page.getByRole("table", { name: "전체 메뉴 편집" }),
+      ).toBeVisible();
+    } else if (definition.route === "/UI-27") {
+      await expect(page.getByTestId("common-code-page")).toBeVisible();
+      await page.getByRole("tab", { name: "기준값", exact: true }).click();
+      await expect(page.getByTestId("params-panel")).toBeVisible();
+      await expect(
+        page.getByRole("heading", { level: 2, name: "기준값", exact: true }),
+      ).toBeVisible();
+    } else {
+      await expect(
+        page.getByRole("region", {
+          name: `${entry.menu_name} 업무 자리`,
+          exact: true,
+        }),
+      ).toHaveText("이 화면은 다음 단계에서 만듭니다.");
+    }
     const period = page.getByRole("region", { name: "화면 기간" });
     if (definition.periodType === "NONE") await expect(period).toHaveCount(0);
     else await expect(period).toBeVisible();

@@ -1,0 +1,33 @@
+.tableWrap {
+  overflow-x: auto;
+  max-width: 100%;
+  border: var(--border-width) solid var(--divider);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+.tableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-table);
+  line-height: var(--line-table);
+}
+.tableWrap th,
+.tableWrap td {
+  padding: var(--space-12);
+  border-bottom: var(--border-width) solid var(--divider);
+  text-align: left;
+}
+.tableWrap th {
+  background: var(--header-bg);
+}
+.tableWrap button + button {
+  margin-left: var(--space-8);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.dialog {
+  width: min(600px, 100%);
+}

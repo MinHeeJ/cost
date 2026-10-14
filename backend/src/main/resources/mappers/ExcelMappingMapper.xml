@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.excelmappings.ExcelMappingMapper">
+    <resultMap id="row" type="cost.excelmappings.ExcelMapping">
+        <result column="excel_label" property="excelLabel" />
+        <result column="target_group" property="targetGroup" />
+        <result column="target_code" property="targetCode" />
+        <result column="map_role" property="mapRole" />
+        <result column="note" property="note" />
+        <result column="use_yn" property="useYn" />
+        <result column="group_name" property="groupName" />
+        <result column="code_name" property="codeName" />
+    </resultMap>
+    <sql id="joinedRows">
+        SELECT
+            m.excel_label, m.target_group, m.target_code,
+            m.map_role, m.note, m.use_yn,
+            g.group_name, c.code_name
+        FROM si_cost.cm_excel_mapping m
+        JOIN si_cost.cm_code_group g ON g.group_code = m.target_group
+        JOIN si_cost.cm_code c ON c.group_code = m.target_group AND c.code = m.target_code
+    </sql>
+    <select id="selectAll" resultMap="row">
+        <include refid="joinedRows" />
+        ORDER BY m.excel_label, m.target_group, m.target_code
+    </select>
+    <select id="selectOne" resultMap="row">
+        <include refid="joinedRows" />
+        WHERE m.excel_label = #{label}
+            AND m.target_group = #{group}
+            AND m.target_code = #{code}
+    </select>
+    <select id="lockCode" resultType="string">
+        SELECT code
+        FROM si_cost.cm_code
+        WHERE group_code = #{group}
+            AND code = #{code}
+        FOR UPDATE
+    </select>
+    <select id="lockMapping" resultType="long">
+        SELECT mapping_id
+        FROM si_cost.cm_excel_mapping
+        WHERE excel_label = #{label}
+            AND target_group = #{group}
+            AND target_code = #{code}
+        FOR UPDATE
+    </select>
+    <insert id="insert">
+        INSERT INTO si_cost.cm_excel_mapping (
+            excel_label, target_group, target_code, map_role, note, created_by
+        )
+        VALUES (
+            #{row.excelLabel}, #{row.targetGroup}, #{row.targetCode},
+            #{row.mapRole}, #{row.note,jdbcType=VARCHAR}, #{actor,jdbcType=BIGINT}
+        )
+    </insert>
+    <update id="update">
+        UPDATE si_cost.cm_excel_mapping
+        SET map_role = #{row.mapRole},
+            note = #{row.note,jdbcType=VARCHAR},
+            use_yn = #{row.useYn}
+        WHERE excel_label = #{row.excelLabel}
+            AND target_group = #{row.targetGroup}
+            AND target_code = #{row.targetCode}
+    </update>
+</mapper>

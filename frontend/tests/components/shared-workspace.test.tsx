@@ -58,6 +58,11 @@ beforeEach(() => {
   request.mockReset();
   request.mockImplementation(async (path: string) => {
     if (path === "/api/menus") return success(fixture);
+    if (path === "/api/admin/menus") return success(fixture);
+    if (path.startsWith("/api/admin/code-history")) {
+      return success({ items: [], total: 0, page: 1, size: 50 });
+    }
+    if (path.startsWith("/api/admin/")) return success([]);
     const query = new URL(path, "https://test.invalid").searchParams;
     return success([
       {
@@ -133,7 +138,39 @@ describe("공유 업무 자리", () => {
       expect(
         await screen.findByRole("heading", { level: 1, name: entry.menu_name }),
       ).toBeVisible();
-      expect(screen.getByText(definition.screenId)).toBeVisible();
+      expect(
+        screen.getByText(definition.screenId, { selector: "span" }),
+      ).toBeVisible();
+      if (definition.route === "/UI-25") {
+        expect(
+          await screen.findByRole("table", { name: "전체 메뉴 편집" }),
+        ).toBeVisible();
+        expect(request).toHaveBeenCalledWith(
+          "/api/admin/menus",
+          expect.anything(),
+        );
+        expect(screen.queryByLabelText("화면 기간")).toBeNull();
+        return;
+      }
+      if (definition.route === "/UI-27") {
+        expect(await screen.findByTestId("common-code-page")).toBeVisible();
+        await userEvent.click(screen.getByRole("tab", { name: "기준값" }));
+        expect(
+          await screen.findByText("현재 적용 가능한 기준값이 없습니다."),
+        ).toBeVisible();
+        expect(screen.getByTestId("params-panel")).toBeVisible();
+        expect(
+          within(screen.getByTestId("params-panel")).queryByLabelText(
+            "화면 기간",
+          ),
+        ).toBeNull();
+        expect(request).toHaveBeenCalledWith(
+          "/api/admin/params",
+          expect.anything(),
+        );
+        expect(screen.queryByText("로그인")).not.toBeInTheDocument();
+        return;
+      }
       expect(
         screen
           .getAllByText("이 화면은 다음 단계에서 만듭니다.")
