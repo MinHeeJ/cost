@@ -1,0 +1,30 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: var(--space-24);
+  background: rgb(0 0 0 / 30%);
+}
+.dialog {
+  width: min(640px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--surface);
+  padding: var(--space-24);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-overlay);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.error {
+  color: var(--danger);
+  white-space: normal;
+}

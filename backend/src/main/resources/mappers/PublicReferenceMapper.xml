@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.apiops.PublicReferenceMapper">
+    <resultMap id="option" type="cost.apiops.CodeOption">
+        <result column="code" property="code" />
+        <result column="code_name" property="name" />
+        <result column="attr1" property="attr1" />
+        <result column="attr2" property="attr2" />
+        <result column="attr3" property="attr3" />
+    </resultMap>
+    <resultMap id="param" type="cost.apiops.ParamItem">
+        <result column="param_key" property="paramKey" />
+        <result column="effective_from" property="effectiveFrom" />
+        <result column="param_name" property="paramName" />
+        <result column="num_value" property="numValue" />
+        <result column="text_value" property="textValue" />
+        <result column="unit" property="unit" />
+        <result column="used_in" property="usedIn" />
+    </resultMap>
+    <select id="groupExists" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1
+            FROM si_cost.cm_code_group
+            WHERE group_code = #{group}
+        )
+    </select>
+    <select id="selectCodes" resultMap="option">
+        SELECT
+            code, code_name, attr1, attr2, attr3
+        FROM si_cost.cm_code
+        WHERE group_code = #{group}
+            AND use_yn = 'Y'
+        ORDER BY sort_order, code
+    </select>
+    <select id="selectParam" resultMap="param">
+        SELECT
+            param_key, effective_from, param_name, num_value, text_value, unit, used_in
+        FROM si_cost.cm_param
+        WHERE param_key = #{key}
+            AND effective_from &lt;= #{month}
+        ORDER BY effective_from DESC
+        LIMIT 1
+    </select>
+</mapper>

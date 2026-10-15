@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.codegroups.CodeMapper">
+    <resultMap id="CodeGroup" type="cost.codegroups.CodeGroup">
+        <result column="group_code" property="groupCode" />
+        <result column="group_name" property="groupName" />
+        <result column="group_kind" property="groupKind" />
+        <result column="attr1_label" property="attr1Label" />
+        <result column="attr2_label" property="attr2Label" />
+        <result column="attr3_label" property="attr3Label" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="use_yn" property="useYn" />
+        <result column="code_count" property="codeCount" />
+    </resultMap>
+    <resultMap id="AdminCode" type="cost.codegroups.AdminCode">
+        <result column="group_code" property="groupCode" />
+        <result column="code" property="code" />
+        <result column="code_name" property="codeName" />
+        <result column="attr1" property="attr1" />
+        <result column="attr2" property="attr2" />
+        <result column="attr3" property="attr3" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="use_yn" property="useYn" />
+        <result column="effective_from" property="effectiveFrom" />
+    </resultMap>
+    <sql id="groupColumns">
+        g.group_code, g.group_name, g.group_kind,
+        g.attr1_label, g.attr2_label, g.attr3_label, g.sort_order, g.use_yn,
+        (SELECT COUNT(*) FROM si_cost.cm_code c WHERE c.group_code = g.group_code) AS code_count
+    </sql>
+    <select id="selectGroups" resultMap="CodeGroup">
+        SELECT
+            <include refid="groupColumns" />
+        FROM si_cost.cm_code_group g
+        ORDER BY g.sort_order, g.group_code
+    </select>
+    <select id="selectGroup" resultMap="CodeGroup">
+        SELECT
+            <include refid="groupColumns" />
+        FROM si_cost.cm_code_group g
+        WHERE g.group_code = #{group}
+    </select>
+    <select id="lockGroup" resultMap="CodeGroup">
+        SELECT
+            <include refid="groupColumns" />
+        FROM si_cost.cm_code_group g
+        WHERE g.group_code = #{group}
+        FOR UPDATE OF g
+    </select>
+    <select id="selectCodes" resultMap="AdminCode">
+        SELECT
+            c.group_code, c.code, c.code_name, c.attr1, c.attr2, c.attr3,
+            c.sort_order, c.use_yn, c.effective_from
+        FROM si_cost.cm_code c
+        WHERE c.group_code = #{group}
+        ORDER BY c.sort_order, c.code
+    </select>
+    <insert id="insertGroup">
+        INSERT INTO si_cost.cm_code_group (
+            group_code, group_name, group_kind, attr1_label, attr2_label, attr3_label, created_by
+        )
+        VALUES (
+            #{row.groupCode}, #{row.groupName}, 'BIZ',
+            #{row.attr1Label}, #{row.attr2Label}, #{row.attr3Label}, #{actor,jdbcType=BIGINT}
+        )
+    </insert>
+    <insert id="insertCode">
+        INSERT INTO si_cost.cm_code (
+            group_code, code, code_name, attr1, attr2, attr3,
+            sort_order, use_yn, effective_from, created_by
+        )
+        VALUES (
+            #{row.groupCode}, #{row.code}, #{row.codeName}, #{row.attr1}, #{row.attr2}, #{row.attr3},
+            #{row.sortOrder}, 'Y', #{row.effectiveFrom,jdbcType=DATE}, #{actor,jdbcType=BIGINT}
+        )
+    </insert>
+    <update id="updateCode">
+        UPDATE si_cost.cm_code
+        <set>
+            <if test="changes.containsKey('code_name')">
+                code_name = #{changes.code_name,jdbcType=VARCHAR},
+            </if>
+            <if test="changes.containsKey('attr1')">
+                attr1 = #{changes.attr1,jdbcType=VARCHAR},
+            </if>
+            <if test="changes.containsKey('attr2')">
+                attr2 = #{changes.attr2,jdbcType=VARCHAR},
+            </if>
+            <if test="changes.containsKey('attr3')">
+                attr3 = #{changes.attr3,jdbcType=VARCHAR},
+            </if>
+            <if test="changes.containsKey('sort_order')">
+                sort_order = #{changes.sort_order,jdbcType=INTEGER},
+            </if>
+            <if test="changes.containsKey('use_yn')">
+                use_yn = #{changes.use_yn,jdbcType=VARCHAR},
+            </if>
+            <if test="changes.containsKey('effective_from')">
+                effective_from = #{changes.effective_from,jdbcType=DATE},
+            </if>
+            updated_by = #{actor,jdbcType=BIGINT}
+        </set>
+        WHERE group_code = #{group}
+            AND code = #{code}
+    </update>
+</mapper>

@@ -1,5 +1,4 @@
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const args = process.argv.slice(2);
@@ -19,14 +18,24 @@ const runnerArgs = hasE2e
   ? ["test", ...args.filter((arg) => arg !== "--run")]
   : ["run", ...args.filter((arg) => arg !== "--run")];
 
+// Browser caches are separate from node_modules and may be empty in the runner.
+// Provision the matching headless Chromium build before running browser tests.
+// Playwright reuses an existing installation and honors PLAYWRIGHT_BROWSERS_PATH.
 if (hasE2e) {
-  const { chromium } = await import("@playwright/test");
-  if (!existsSync(chromium.executablePath())) {
-    console.error(
-      "Installed Chromium not found. Check PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright.",
-    );
-    process.exit(1);
-  }
+  const installation = spawnSync(
+    process.execPath,
+    [
+      fileURLToPath(
+        new URL("../node_modules/@playwright/test/cli.js", import.meta.url),
+      ),
+      "install",
+      "--only-shell",
+      "chromium",
+    ],
+    { stdio: "inherit" },
+  );
+  if (installation.error) console.error(installation.error.message);
+  if (installation.status !== 0) process.exit(installation.status ?? 1);
 }
 
 const result = spawnSync(

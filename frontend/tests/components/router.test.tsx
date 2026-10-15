@@ -34,7 +34,15 @@ beforeEach(() => {
     const data =
       path === "/api/menus"
         ? fixture
-        : [{ close_month: query.get("from"), status: "OPEN" }];
+        : path === "/api/admin/params"
+          ? []
+          : path === "/api/admin/menus"
+            ? fixture
+            : path.startsWith("/api/admin/code-history")
+              ? { items: [], total: 0, page: 1, size: 50 }
+              : path.startsWith("/api/admin/")
+                ? []
+                : [{ close_month: query.get("from"), status: "OPEN" }];
     return {
       ok: true,
       status: 200,
@@ -60,6 +68,14 @@ describe("공개 앱 route 연결", () => {
       ).toHaveLength(1);
       expect(screen.getByLabelText("현재 주소")).toHaveTextContent(route);
       expect(request).toHaveBeenCalledWith("/api/menus", expect.anything());
+      if (route === "/UI-27") {
+        expect(await screen.findByTestId("common-code-page")).toBeVisible();
+        await userEvent.click(screen.getByRole("tab", { name: "기준값" }));
+        expect(
+          await screen.findByText("현재 적용 가능한 기준값이 없습니다."),
+        ).toBeVisible();
+        expect(screen.getByTestId("params-panel")).toBeVisible();
+      }
       expect(screen.queryByText("로그인")).toBeNull();
     },
   );

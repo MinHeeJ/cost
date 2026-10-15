@@ -14,7 +14,7 @@
     <select id="selectActive" resultMap="row">
         SELECT
             menu_id, parent_menu_id, menu_name, screen_id, icon, sort_order, use_yn, mobile_yn
-        FROM sys_menu
+        FROM public.sys_menu
         WHERE use_yn = 'Y'
         ORDER BY sort_order, menu_id
     </select>

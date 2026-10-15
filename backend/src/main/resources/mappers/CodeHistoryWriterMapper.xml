@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.common.CodeHistoryWriteMapper">
+    <!-- 업무 쓰기와 같은 MyBatis/Spring 연결에서만 호출한다. NULL actor를 명시적으로 바인딩한다. -->
+    <insert id="insert">
+        INSERT INTO si_cost.cm_code_history (
+            group_code,
+            code,
+            action,
+            field_name,
+            before_value,
+            after_value,
+            changed_by
+        )
+        VALUES (
+            #{groupCode},
+            #{code,jdbcType=VARCHAR},
+            #{action},
+            #{fieldName},
+            #{beforeValue,jdbcType=VARCHAR},
+            #{afterValue,jdbcType=VARCHAR},
+            #{changedBy,jdbcType=BIGINT}
+        )
+    </insert>
+</mapper>

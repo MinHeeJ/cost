@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cost.menus.AdminMenuMapper">
+    <resultMap id="row" type="cost.menus.AdminMenuRow">
+        <result column="menu_id" property="menuId" />
+        <result column="parent_menu_id" property="parentMenuId" />
+        <result column="menu_name" property="menuName" />
+        <result column="screen_id" property="screenId" />
+        <result column="icon" property="icon" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="use_yn" property="useYn" />
+        <result column="mobile_yn" property="mobileYn" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="updated_by" property="updatedBy" />
+    </resultMap>
+    <select id="selectAll" resultMap="row">
+        SELECT
+            menu_id, parent_menu_id, menu_name, screen_id, icon,
+            sort_order, use_yn, mobile_yn, updated_at, updated_by
+        FROM public.sys_menu
+        ORDER BY sort_order, menu_id
+    </select>
+    <select id="lockRoots" resultType="java.lang.Long">
+        SELECT menu_id
+        FROM public.sys_menu
+        WHERE parent_menu_id IS NULL
+        ORDER BY menu_id
+        FOR UPDATE
+    </select>
+    <update id="update">
+        UPDATE public.sys_menu
+        SET menu_name = #{menuName},
+            parent_menu_id = #{parentMenuId,jdbcType=BIGINT},
+            sort_order = #{sortOrder},
+            use_yn = #{useYn},
+            mobile_yn = #{mobileYn},
+            updated_at = #{updatedAt},
+            updated_by = #{updatedBy,jdbcType=BIGINT}
+        WHERE menu_id = #{menuId}
+    </update>
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="menuId"
+            keyColumn="menu_id">
+        INSERT INTO public.sys_menu (
+            parent_menu_id, menu_name, screen_id, icon, sort_order,
+            use_yn, mobile_yn, created_at, created_by, updated_at, updated_by
+        )
+        VALUES (
+            #{parentMenuId,jdbcType=BIGINT}, #{menuName}, #{screenId,jdbcType=VARCHAR},
+            #{icon,jdbcType=VARCHAR}, #{sortOrder}, 'Y', 'Y',
+            #{updatedAt}, #{updatedBy,jdbcType=BIGINT}, #{updatedAt}, #{updatedBy,jdbcType=BIGINT}
+        )
+    </insert>
+    <insert id="insertScreenPermissions">
+        INSERT INTO si_cost.sys_role_menu_perm (
+            role_id, menu_id, can_read, can_create, can_update, can_delete,
+            can_upload, can_download, can_confirm, updated_at, updated_by
+        )
+        SELECT
+            r.role_id, #{menuId}, 'N', 'N', 'N', 'N', 'N', 'N', 'N',
+            CURRENT_TIMESTAMP, NULL
+        FROM si_cost.sys_role r
+        ORDER BY r.role_id
+    </insert>
+</mapper>
